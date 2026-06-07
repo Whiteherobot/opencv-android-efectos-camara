@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#111111">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <!-- Preview del video procesado -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:scaleType="centerCrop"
+            android:background="#000000"/>
+
+        <!-- FPS y Modo actual -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="4dp">
+            <TextView
+                android:id="@+id/tvFps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="FPS: --"
+                android:textColor="#00FF88"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/tvModo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Modo: STRUSS"
+                android:textColor="#FFD700"
+                android:textSize="14sp"
+                android:gravity="end"/>
+        </LinearLayout>
+
+        <!-- ── Selector de modo ── -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="MODO DE OPERACIÓN" android:textColor="#AAAAAA"
+            android:textSize="12sp" android:layout_marginTop="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgModo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/rbStruss"    android:text="Struss"
+                android:checked="true" android:textColor="#FFFFFF" android:layout_weight="1"/>
+            <RadioButton android:id="@+id/rbChromaKey" android:text="Chroma Key"
+                android:textColor="#FFFFFF" android:layout_weight="1"/>
+            <RadioButton android:id="@+id/rbRuidoFiltro" android:text="Ruido+Filtro"
+                android:textColor="#FFFFFF" android:layout_weight="1"/>
+        </RadioGroup>
+
+        <!-- ── Panel Parte 1-A: Efecto Struss ── -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="PARTE 1-A — EFECTO KARL STRUSS" android:textColor="#4FC3F7"
+            android:textSize="12sp" android:textStyle="bold" android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/tvAlpha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="α = 0.50"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"/>
+        <SeekBar
+            android:id="@+id/sliderAlpha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="50"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="← Canal Azul (0)          Canal Rojo (1) →"
+            android:textColor="#888888" android:textSize="11sp"/>
+
+        <!-- ── Panel Parte 1-B: Ruido ── -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="PARTE 1-B — RUIDO" android:textColor="#CE93D8"
+            android:textSize="12sp" android:textStyle="bold" android:layout_marginTop="12dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgRuido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/rbGaussiano" android:text="Gaussiano"
+                android:checked="true" android:textColor="#FFFFFF" android:layout_weight="1"/>
+            <RadioButton android:id="@+id/rbSpeckle"   android:text="Speckle"
+                android:textColor="#FFFFFF" android:layout_weight="1"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvVarianza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ruido σ² = 30"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"/>
+        <SeekBar
+            android:id="@+id/sliderVarianza"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="30"/>
+
+        <!-- ── Panel Parte 1-B: Filtro espacial ── -->
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="PARTE 1-B — FILTRO ESPACIAL" android:textColor="#A5D6A7"
+            android:textSize="12sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgFiltro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton android:id="@+id/rbMediana"    android:text="Mediana"
+                android:checked="true" android:textColor="#FFFFFF" android:layout_weight="1"/>
+            <RadioButton android:id="@+id/rbGaussianoF" android:text="Gaussiano"
+                android:textColor="#FFFFFF" android:layout_weight="1"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvKernel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kernel = 5×5"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"/>
+        <SeekBar
+            android:id="@+id/sliderKernel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="9"
+            android:progress="1"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="← Kernel 3×3                    Kernel 21×21 →"
+            android:textColor="#888888" android:textSize="11sp"
+            android:layout_marginBottom="16dp"/>
+
+    </LinearLayout>
+</ScrollView>
