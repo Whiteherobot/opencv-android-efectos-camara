@@ -130,14 +130,23 @@ Java_com_ups_practica21_MainActivity_nativeChromaKey(
     cv::Mat maskFondo;
     cv::inRange(hsv, lower, upper, maskFondo);
 
-    // Suavizar los bordes de la máscara para reducir aliasing
+    // Cerrar huecos y suavizar el borde de la máscara para reducir aliasing
     cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, {5, 5});
     cv::morphologyEx(maskFondo, maskFondo, cv::MORPH_CLOSE, kernel);
     cv::GaussianBlur(maskFondo, maskFondo, {5, 5}, 1.0);
 
-    // Reemplazar fondo con color sólido verde
-    cv::Mat fondoSolido(frame.size(), frame.type(), cv::Scalar(34, 139, 34));
-    fondoSolido.copyTo(frame, maskFondo);
+    // Mezclar con la máscara suavizada como peso (0 = primer plano, 1 = fondo).
+    // Usarla en copyTo la volvía binaria (cualquier valor > 0 contaba como
+    // fondo), así que el difuminado agrandaba el área reemplazada.
+    cv::Mat peso;
+    maskFondo.convertTo(peso, CV_32F, 1.0 / 255.0);
+    cv::Mat peso3;
+    cv::merge(std::vector<cv::Mat>{peso, peso, peso}, peso3);
+    cv::Mat frameF, fondoF;
+    frame.convertTo(frameF, CV_32FC3);
+    cv::Mat(frame.size(), CV_32FC3, cv::Scalar(34, 139, 34)).copyTo(fondoF);
+    cv::Mat mezcla = frameF.mul(cv::Scalar::all(1.0) - peso3) + fondoF.mul(peso3);
+    mezcla.convertTo(frame, CV_8UC3);
 
     matToBitmap(env, frame, bitmap);
 }
